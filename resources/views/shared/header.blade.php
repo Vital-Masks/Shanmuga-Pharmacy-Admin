@@ -3,14 +3,14 @@
            <div class="section__content section__content--p35">
                <div class="header3-wrap">
                    <div class="header__logo">
-                       <a href="#">
+                       <a href="/">
                            <img src="assets/images/adminImages/logo-white.png" alt="CoolAdmin" />
                        </a>
                    </div>
                    <div class="header__navbar">
                        <ul class="list-unstyled">
                            <li class="has-sub">
-                               <a href="#">
+                               <a href="/">
                                    <i class="fas fa-tachometer-alt"></i>Dashboard
                                    <span class="bot-line"></span>
                                </a>
@@ -30,9 +30,9 @@
                                </ul>
                            </li>
                            <li>
-                               <a href="#">
+                               <a href="{{ route('products.index') }}">
                                    <i class="fas fa-shopping-basket"></i>
-                                   <span class="bot-line"></span>eCommerce</a>
+                                   <span class="bot-line"></span>Products</a>
                            </li>
                            <li>
                                <a href="table.html">
