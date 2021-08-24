@@ -18,11 +18,4 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-// Route::get('/product', [ProductController::class, 'index'])->name('product');
-// Route::get('/product/create', [ProductController::class, 'create'])->name('product-create');
-// Route::post('/product/create', [ProductController::class, 'store'])->name('product-create');
-// Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product-edit');
-// Route::post('/product/edit/{id}', [ProductController::class, 'update'])->name('product-edit');
-
 Route::resource('products',ProductController::class);
-// Route::match(['get', 'post'],'/product/create', [ProductController::class, 'create'])->name('product-create');
