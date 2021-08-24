@@ -30,7 +30,7 @@
                                </ul>
                            </li>
                            <li>
-                               <a href="{{ route('product') }}">
+                               <a href="{{ route('products.index') }}">
                                    <i class="fas fa-shopping-basket"></i>
                                    <span class="bot-line"></span>Products</a>
                            </li>

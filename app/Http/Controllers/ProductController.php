@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ProductController extends Controller
 {
@@ -16,8 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $pagination = 10;
-
-        $products = Product::orderByDesc('created_at')->paginate($pagination);
+        $products = Product::latest()->paginate($pagination);
         return view('productsView')->with('products', $products);
     }
 
@@ -28,7 +28,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('productsFormView');
+        $product = new Product();
+        $images[] = new ProductImage();
+        $action = URL::route('products.store');
+        return view('productsFormView', compact('product', 'action', 'images'));
     }
 
     /**
@@ -39,51 +42,34 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request);
-        // die;
-        $data = $request->all();
-        $product = new Product();
+        $request->validate([
+            'name' => 'required',
+            'brand_id' => 'required',
+            'weight' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+            'category_id' => 'required',
+            'description' => 'required',
+        ]);
 
-        $product->name = $data['name'];
-        $product->brand_id = 1;
-        $product->weight = $data['weight'];
-        $product->price = $data['price'];
-        $product->discount = $data['discount'];
-        $product->category_id = 1;
-        $product->description = $data['description'];
-
-        $product->save();
-        $Product_Id = Product::pluck('id')->last();
-
-        // upload multi image
-        if ($request->hasFile('product_images')) {
-
-            $image_array = $request->file('product_images');
-
-            $array_len = count($image_array);
-
-            for ($i = 0; $i < $array_len; $i++) {
-                $image_ext = $image_array[$i]->getClientOriginalExtension();
+        $product = Product::create($request->all());
+        // // upload multi image
+        if ($request->hasfile('image_url')) {
+            $images = new ProductImage();
+            $images = $request->file('image_url');
+            foreach ($images as $image) {
+                $image_ext = $image->getClientOriginalExtension();
                 $filename = rand(111, 99999) . "." . $image_ext;
                 $folder = '/img/products/';
-                $destinationPath = public_path($folder);
                 $filePath = $folder . $filename;
-                $image_array[$i]->move($destinationPath, $filename);
-
-                $images = new ProductImage();
-                $images->image_url = $filePath;
-                $images->product_id = $Product_Id;
-                $images->save();
+                $array[] = ['image_url' => $filePath];
+                $image->move(public_path($folder), $filename);
             }
+            $product->productImages()->createMany($array);
         } else {
-            $images = new ProductImage();
-            $images->ImageName = "/img/products/noimage.png";
-            $images->product_id = $Product_Id;
-            $images->save();
+            $product->productImages()->create(['image_url' => '/img/products/no_image.png']);
         }
-
-        return redirect('product')->with('flash_message_success', 'Product added successfully!');
+        return redirect()->route('products.index')->with('flash_message_success', 'Product added successfully!');
     }
 
     /**
@@ -94,7 +80,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('productsDetailsView',compact('product'));
     }
 
     /**
@@ -105,7 +91,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $images = $product->productImages;
+        $action = URL::route('products.update', $product->id);
+        return view('productsFormView', compact('product', 'action', 'images'));
     }
 
     /**
@@ -117,7 +105,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'brand_id' => 'required',
+            'weight' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+            'category_id' => 'required',
+            'description' => 'required',
+        ]);
+
+        // echo "<pre>"; print_r($request->all()); die;
+
+        $product->update($request->all());
+        return redirect()->route('products.index')->with('flash_message_success', 'Product updated successfully!');
     }
 
     /**
@@ -128,6 +129,16 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $images = $product->productImages()->get();
+        foreach ($images as $image) {
+            if (file_exists(public_path() . $image->image_url)) {
+                unlink(public_path() . $image->image_url);
+            }
+        }
+        $product->productImages()->delete();
+        $product->delete();
+
+        return redirect()->route('products.index')
+            ->with('flash_message_success', 'Product deleted successfully');
     }
 }

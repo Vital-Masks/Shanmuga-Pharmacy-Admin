@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="display: flex; align-items: center; justify-content: space-between">
-                    <h3 class="title-5 m-b-35">data table</h3>
+                    <h3 class="title-5 m-b-35">Medicine Products</h3>
                     @if(Session::has('flash_message_success'))
                     <div class="alert alert-success fade show" role="alert">
                         {!! session('flash_message_success') !!}
@@ -18,25 +18,10 @@
                         </button>
                     </div>
                     @endif
-                    @if ($errors->any())
-                    <!-- <div class="alert alert-danger" role="alert">
-                        This is a danger alert—check it out!
-                    </div> -->
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
                 </div>
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
-                        <div class="rs-select2--light rs-select2--md">
+                        <!-- <div class="rs-select2--light rs-select2--md">
                             <select class="js-select2" name="property">
                                 <option selected="selected">All Properties</option>
                                 <option value="">Option 1</option>
@@ -53,10 +38,10 @@
                             <div class="dropDownSelect2"></div>
                         </div>
                         <button class="au-btn-filter">
-                            <i class="zmdi zmdi-filter-list"></i>filters</button>
+                            <i class="zmdi zmdi-filter-list"></i>filters</button> -->
                     </div>
                     <div class="table-data__tool-right">
-                        <a href="{{ route('product-create')}}" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                        <a href="{{ route('products.create')}}" class="au-btn au-btn-icon au-btn--green au-btn--small">
                             <i class="zmdi zmdi-plus"></i>add item</a>
 
                     </div>
@@ -75,12 +60,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($products as $product)
+                            @forelse($products as $product)
                             <tr class="">
-                               
+
                                 <td>{{$product->name}}</td>
                                 <td>
-                                {{$product->brand_id}}
+                                    {{$product->brand_id}}
                                 </td>
                                 <td class="desc">{{$product->weight}}</td>
                                 <td>
@@ -90,23 +75,28 @@
                                 <td>{{$product->description}}</td>
                                 <td>
                                     <div class="table-data-feature">
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                            <i class="zmdi zmdi-mail-send"></i>
-                                        </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <a href="{{ route('products.show', $product->id)}}" class="item" data-toggle="tooltip" data-placement="top" title="Show">
+                                            <i class="zmdi zmdi-eye"></i>
+                                        </a>
+                                        <a href="{{ route('products.edit', $product->id)}}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="zmdi zmdi-edit"></i>
-                                        </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                            <i class="zmdi zmdi-more"></i>
-                                        </button>
+                                        </a>
+                                        <form action="{{ route('products.destroy',$product->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
                             <tr class="spacer"></tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center"> No Data !</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
