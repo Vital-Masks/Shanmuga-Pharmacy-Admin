@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class CategoryController extends Controller
 {
@@ -14,17 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $pagination = 10;
+        $action = URL::route('categories.store');
+        $categories = Category::latest()->paginate($pagination);
+        $category = new Category();
+        return view('categoriesView', compact('categories','action', 'category'));
     }
 
     /**
@@ -35,7 +30,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Category::create($request->all());
+        return redirect()->route('categories.index')->with('flash_message_success', 'Category added successfully!');
     }
 
     /**
@@ -57,7 +53,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories = Category::latest()->paginate(10);
+        $action = URL::route('categories.update', $category->id);
+        return view('categoriesView', compact('category', 'action', 'categories'));
     }
 
     /**
@@ -69,7 +67,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('flash_message_success', 'Category updated successfully!');
     }
 
     /**
@@ -80,6 +79,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('flash_message_success', 'Category deleted successfully!');
     }
 }

@@ -20,7 +20,6 @@
         </div>
         <form method="POST" action="{{ $action }}" name="product-create" id="product-create" enctype="multipart/form-data" class="form-horizontal">
             <div class="card-body card-block">
-                <!-- @method('PUT') -->
 
                 @if($product->id)
                 @method('PUT')
@@ -117,11 +116,9 @@
                         <input type="file" id="image_url" name="image_url[]" multiple="true" class="form-control-file">
                     </div>
                     <div style="display: flex;">
-                        @if(count($images) > 1)
-                        @foreach($images as $img)
+                        @foreach($product->productImages as $img)
                         <img style="width: 100px; height: 100px; object-fit: cover; margin-right: 5px" src="{{ asset($img->image_url) }}" alt="" class="img-fluid">
                         @endforeach
-                        @endif
                     </div>
                 </div>
 

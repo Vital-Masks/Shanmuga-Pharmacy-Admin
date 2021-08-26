@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $pagination = 10;
         $products = Product::latest()->paginate($pagination);
-        return view('productsView')->with('products', $products);
+        return view('productsView', compact('products'));
     }
 
     /**
@@ -51,8 +51,8 @@ class ProductController extends Controller
             'category_id' => 'required',
             'description' => 'required',
         ]);
-
         $product = Product::create($request->all());
+
         // // upload multi image
         if ($request->hasfile('image_url')) {
             $images = new ProductImage();
@@ -66,9 +66,7 @@ class ProductController extends Controller
                 $image->move(public_path($folder), $filename);
             }
             $product->productImages()->createMany($array);
-        } else {
-            $product->productImages()->create(['image_url' => '/img/products/no_image.png']);
-        }
+        } 
         return redirect()->route('products.index')->with('flash_message_success', 'Product added successfully!');
     }
 
@@ -91,9 +89,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $images = $product->productImages;
         $action = URL::route('products.update', $product->id);
-        return view('productsFormView', compact('product', 'action', 'images'));
+        return view('productsFormView', compact('product', 'action'));
     }
 
     /**

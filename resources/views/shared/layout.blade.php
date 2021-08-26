@@ -32,7 +32,7 @@
 
     <!-- Main CSS-->
     <link rel="stylesheet" href="{{ URL::asset('assets/css/theme.css')}}">
-
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/style.css')}}">
 </head>
 
 <body class="animsition">

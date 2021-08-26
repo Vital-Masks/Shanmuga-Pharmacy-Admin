@@ -1,0 +1,13 @@
+.product-detail .card .card-body {
+    width: 100%;
+}
+
+.product-detail .card .card-body .carousel .carousel-inner {
+    height: 100% !important;
+}
+
+.product-detail .card .card-body .carousel .carousel-inner img {
+    object-fit: cover;
+    height: 500px;
+    width: 100%;
+}
