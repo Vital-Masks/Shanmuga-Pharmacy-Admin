@@ -47,6 +47,9 @@
                                    <li>
                                        <a href="{{ route('categories.index')}}">Categories</a>
                                    </li>
+                                   <li>
+                                       <a href="{{ route('brands.index')}}">Brands</a>
+                                   </li>
                                </ul>
                            </li>
                        </ul>

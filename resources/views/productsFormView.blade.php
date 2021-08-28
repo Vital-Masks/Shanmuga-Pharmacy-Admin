@@ -89,9 +89,9 @@
                     <div class="col-12 col-md-9">
                         <select name="category_id" id="category_id" class="form-control">
                             <option value="0">Please select</option>
-                            <option value="1">Cat 1</option>
-                            <option value="2">Option #2</option>
-                            <option value="3">Option #3</option>
+                            @foreach($categories as $category)
+                            <option value="{{$category->id}}" {{ $product->category_id == $category->id ? "selected" : (old('category_id') == $category->id ? "selected" : "") }}>{{$category->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

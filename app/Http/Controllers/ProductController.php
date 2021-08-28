@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class ProductController extends Controller
         $product = new Product();
         $images[] = new ProductImage();
         $action = URL::route('products.store');
-        return view('productsFormView', compact('product', 'action', 'images'));
+        $categories = Category::all();
+        return view('productsFormView', compact('product', 'action', 'images', 'categories'));
     }
 
     /**
@@ -66,7 +68,7 @@ class ProductController extends Controller
                 $image->move(public_path($folder), $filename);
             }
             $product->productImages()->createMany($array);
-        } 
+        }
         return redirect()->route('products.index')->with('flash_message_success', 'Product added successfully!');
     }
 
@@ -78,7 +80,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('productsDetailsView',compact('product'));
+        return view('productsDetailsView', compact('product'));
     }
 
     /**
@@ -90,7 +92,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $action = URL::route('products.update', $product->id);
-        return view('productsFormView', compact('product', 'action'));
+        $categories = Category::all();
+        return view('productsFormView', compact('product', 'action', 'categories'));
     }
 
     /**
