@@ -42,10 +42,10 @@
                         Weight: {{ $product->weight }}
                     </p>
                     <p>
-                        Brand: {{ $product->brand_id}}
+                        Brand: {{ $product->brand->name}}
                     </p>
                     <p>
-                        Category: {{ $product->category_id }}
+                        Category: {{ $product->category->name }}
                     </p>
                 </div>
             </div>

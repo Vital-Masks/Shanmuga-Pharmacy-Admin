@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -33,7 +34,8 @@ class ProductController extends Controller
         $images[] = new ProductImage();
         $action = URL::route('products.store');
         $categories = Category::all();
-        return view('productsFormView', compact('product', 'action', 'images', 'categories'));
+        $brands = Brand::all();
+        return view('productsFormView', compact('product', 'action', 'images', 'categories','brands'));
     }
 
     /**
@@ -93,7 +95,9 @@ class ProductController extends Controller
     {
         $action = URL::route('products.update', $product->id);
         $categories = Category::all();
-        return view('productsFormView', compact('product', 'action', 'categories'));
+        $brands = Brand::all();
+
+        return view('productsFormView', compact('product', 'action', 'categories','brands'));
     }
 
     /**
