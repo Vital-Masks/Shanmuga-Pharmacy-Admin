@@ -45,9 +45,9 @@
                     <div class="col-12 col-md-9">
                         <select name="brand_id" id="brand_id" class="form-control">
                             <option value="">Please select</option>
-                            <option value="1" {{ $product->brand_id == 1 ? "selected" : (old('brand_id') == 1 ? "selected" : "") }}>Medicine 1</option>
-                            <option value="2" {{ $product->brand_id == 2 ? "selected" : (old('brand_id') == 2 ? "selected" : "") }}>Option #2</option>
-                            <option value="3" {{ $product->brand_id == 3 ? "selected" : (old('brand_id') == 3 ? "selected" : "") }}>Option #3</option>
+                            @foreach($brands as $brand)
+                            <option value="{{$brand->id}}" {{ $product->brand_id == $brand->id ? "selected" : (old('brand_id') == $brand->id ? "selected" : "") }}>{{$brand->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
