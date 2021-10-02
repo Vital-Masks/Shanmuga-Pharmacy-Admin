@@ -35,6 +35,11 @@
                                    <span class="bot-line"></span>Products</a>
                            </li>
                            <li>
+                               <a href="{{ route('medicines.index') }}">
+                                   <i class="fas fa-medkit"></i>
+                                   <span class="bot-line"></span>Medicine</a>
+                           </li>
+                           <li>
                                <a href="table.html">
                                    <i class="fas fa-trophy"></i>
                                    <span class="bot-line"></span>Features</a>
