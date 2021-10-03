@@ -17,7 +17,7 @@ class CreateMedicinesTable extends Migration
             $table->id();
             $table->string('genericName');
             $table->string('brand');
-            $table->string('netWeightDossage');            
+            $table->string('dossageWeight');            
             $table->string('category');
             $table->string('disease');
             $table->string('description');
