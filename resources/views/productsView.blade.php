@@ -65,7 +65,7 @@
 
                                 <td>{{$product->name}}</td>
                                 <td>
-                                    {{$product->brand_id}}
+                                    {{$product->brand->name}}
                                 </td>
                                 <td class="desc">{{$product->weight}}</td>
                                 <td>
