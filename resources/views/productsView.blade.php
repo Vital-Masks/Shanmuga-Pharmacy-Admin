@@ -52,8 +52,6 @@
                             <tr>
                                 <th>name</th>
                                 <th>brand</th>
-                                <th>weight</th>
-                                <th>price</th>
                                 <th>discount</th>
                                 <th>description</th>
                                 <th></th>
@@ -66,10 +64,6 @@
                                 <td>{{$product->name}}</td>
                                 <td>
                                     {{$product->brand->name}}
-                                </td>
-                                <td class="desc">{{$product->weight}}</td>
-                                <td>
-                                    <span class="status--process">${{$product->price}}</span>
                                 </td>
                                 <td>{{$product->discount}}</td>
                                 <td>{{$product->description}}</td>

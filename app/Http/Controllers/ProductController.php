@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -35,7 +36,7 @@ class ProductController extends Controller
         $action = URL::route('products.store');
         $categories = Category::all();
         $brands = Brand::all();
-        return view('productsFormView', compact('product', 'action', 'images', 'categories','brands'));
+        return view('productsFormView', compact('product', 'action', 'images', 'categories', 'brands'));
     }
 
     /**
@@ -49,13 +50,22 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'brand_id' => 'required',
-            'weight' => 'required',
-            'price' => 'required',
             'discount' => 'required',
             'category_id' => 'required',
             'description' => 'required',
         ]);
-        $product = Product::create($request->all());
+
+        $product = new Product();
+
+        $productArray = [
+            'name' => $request['name'],
+            'brand_id' => $request['brand_id'],
+            'discount' => $request['discount'],
+            'category_id' => $request['category_id'],
+            'description' => $request['description'],
+        ];
+
+        $product = $product->create($productArray);
 
         // // upload multi image
         if ($request->hasfile('image_url')) {
@@ -70,6 +80,27 @@ class ProductController extends Controller
                 $image->move(public_path($folder), $filename);
             }
             $product->productImages()->createMany($array);
+        }
+        if ($request['price_one']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_one'];
+            $productDetails->weight = $request['weight_one'];
+            $productDetails->save();
+        }
+        if ($request['price_two']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_two'];
+            $productDetails->weight = $request['weight_two'];
+            $productDetails->save();
+        }
+        if ($request['price_three']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_three'];
+            $productDetails->weight = $request['weight_three'];
+            $productDetails->save();
         }
         return redirect()->route('products.index')->with('flash_message_success', 'Product added successfully!');
     }
@@ -97,7 +128,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
 
-        return view('productsFormView', compact('product', 'action', 'categories','brands'));
+        return view('productsFormView', compact('product', 'action', 'categories', 'brands'));
     }
 
     /**
@@ -112,8 +143,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'brand_id' => 'required',
-            'weight' => 'required',
-            'price' => 'required',
             'discount' => 'required',
             'category_id' => 'required',
             'description' => 'required',
@@ -122,6 +151,30 @@ class ProductController extends Controller
         // echo "<pre>"; print_r($request->all()); die;
 
         $product->update($request->all());
+        $product->productDetails()->delete();
+
+        if ($request['price_0']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_0'];
+            $productDetails->weight = $request['weight_0'];
+            $productDetails->save();
+        }
+        if ($request['price_1']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_1'];
+            $productDetails->weight = $request['weight_1'];
+            $productDetails->save();
+        }
+        if ($request['price_2']) {
+            $productDetails = new ProductDetail();
+            $productDetails->product_id = $product->id;
+            $productDetails->price = $request['price_2'];
+            $productDetails->weight = $request['weight_2'];
+            $productDetails->save();
+        }
+
         return redirect()->route('products.index')->with('flash_message_success', 'Product updated successfully!');
     }
 
@@ -140,6 +193,7 @@ class ProductController extends Controller
             }
         }
         $product->productImages()->delete();
+        $product->productDetails()->delete();
         $product->delete();
 
         return redirect()->route('products.index')

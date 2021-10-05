@@ -11,3 +11,16 @@
     height: 500px;
     width: 100%;
 }
+
+.size-item {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+.size-pill {
+    padding: 5px 8px;
+    background-color: rgba(255, 0, 0, 0.233);
+    color: black;
+    font-weight: 500;
+    border-radius: 10px;
+}
