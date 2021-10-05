@@ -36,17 +36,16 @@
                 <p class="mt-4">{{ $product->description }}</p>
                 <div>
                     <p>
-                        Price: $ {{ $product->price }}
-                    </p>
-                    <p>
-                        Weight: {{ $product->weight }}
-                    </p>
-                    <p>
                         Brand: {{ $product->brand->name}}
                     </p>
                     <p>
                         Category: {{ $product->category->name }}
                     </p>
+                </div>
+                <div class="size-item">
+                        @foreach($product->productDetails as $item)
+                        <p class="size-pill">{{$item->weight}} >> LKR {{$item->price}}</p>
+                        @endforeach
                 </div>
             </div>
         </div>
