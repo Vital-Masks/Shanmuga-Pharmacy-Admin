@@ -32,4 +32,15 @@ class Product extends Model
     public function productImages(){
         return $this->hasMany(ProductImage::class);
     }
+
+    public function wights()
+    {
+        return $this->belongsToMany(Weight::class);
+    }
+
+    public function prices()
+    {
+        return $this->belongsToMany(Price::class);
+    }
+  
 }

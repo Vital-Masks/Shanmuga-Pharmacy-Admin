@@ -1,7 +1,8 @@
 @extends('shared.layout')
 @section('content')
 
-<div class="col-lg-6 mx-auto p-t-20 p-b-40">
+<div class="container row mx-auto">
+<div class="col-lg-6 p-t-20 p-b-40">
 
     @if ($errors->any())
     <div class="alert alert-danger" role="alert">
@@ -135,5 +136,86 @@
 
     </div>
 
+</div>
+
+<div class="col-lg-6 p-t-20 p-b-40">
+
+    @if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+        <strong>Whoops!</strong> There were some problems with your input.<br>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <div class="card">
+        <div class="card-header">
+            <strong>Update Price</strong>
+        </div>
+        <form method="POST" action="{{ $action }}" name="product-create" id="product-create" enctype="multipart/form-data" class="form-horizontal">
+            <div class="card-body card-block">
+
+                @if($product->id)
+                @method('PUT')
+                @else
+                @method('POST')
+                @endif
+
+                {{ csrf_field() }}
+                <div class="row form-group">
+                 
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Net Weight/Dosage 01." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Price 01." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                 
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Net Weight/Dosage 02." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Price 02." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                 
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Net Weight/Dosage 03." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input type="text" id="name" name="name" placeholder="Price 03." value="{{ $product->name ?? old('name') }}" class="form-control">
+                        <small class="form-text text-muted hide">This is a help text</small>
+                    </div>
+                </div>
+
+                
+
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i> Submit
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
 </div>
 @endsection
