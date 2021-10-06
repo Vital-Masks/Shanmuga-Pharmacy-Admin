@@ -22,7 +22,6 @@ class CreateMedicinesTable extends Migration
             $table->string('disease');
             $table->string('description');
             $table->string('ageCategory');
-            $table->string('file');
             $table->timestamps();
             
         });
