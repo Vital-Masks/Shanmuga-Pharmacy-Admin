@@ -62,6 +62,7 @@ class AuthController extends Controller
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
+        'is_admin' => true,
         'password' => Hash::make($data['password'])
       ]);
     }    
@@ -69,11 +70,11 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        if(Auth::check()){
+        if(Auth::check() && auth()->user()->is_admin == 1){
             return view('dashboard');
         }
   
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("login")->with('message', 'You are not allowed to access!');
     }
     
 
